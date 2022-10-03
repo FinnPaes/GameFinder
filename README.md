@@ -5,7 +5,10 @@ Dit simpele project heb ik gemaakt om te laten zien dat ik kan omgaan met API's.
 
 Ik heb dit project gerealiseerd met de API van [IGDB](https://www.igdb.com/) een openbare library van games onderhouden door [Twitch](https://www.twitch.tv/).
 
-[Klik hier om het project te zien](https://gamefinder.finnpaes.nl)
+Verder heb ik dit gemaakt met [Nuxt 3](https://v3.nuxtjs.org/) en SSR.
+
+
+[Klik hier om het project te zien!](https://gamefinder.finnpaes.nl)
 
 
 
