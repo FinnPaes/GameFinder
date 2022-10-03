@@ -3,8 +3,8 @@
         <h1>Zoek je game!</h1>
         <p class="description">Wil jij alle informatie over een game? Zoek hieronder de game via de naam op waar je informatie van wilt hebben, voer minimaal 3 karakters in.</p>
 
-        <input type="text" placeholder="GTA V" :class="{ 'rounded-input':searchResults }" @input="searchGame()" v-model="searchInput">
-        <div class="results-wrapper" v-if="searchResults">
+        <input type="text" placeholder="GTA V" :class="{ 'rounded-input':Object.keys(searchResults).length||searching }" @input="searchGame()" v-model="searchInput">
+        <div class="results-wrapper" v-if="Object.keys(searchResults).length > 0 || searching">
             <nuxt-link
                 v-for="(value, index) in searchResults"
                 :key="index"
@@ -14,7 +14,8 @@
                 <img src="/images/placeholder.png" width="50" height="50" alt="" v-else>
                 <span>{{ value.name }}</span>
             </nuxt-link>
-            <p v-if="Object.keys(searchResults).length < 1" class="no-results">Geen resultaten gevonden...</p>
+            <p v-if="Object.keys(searchResults).length < 1 && !searching" class="no-results">Geen resultaten gevonden...</p>
+            <p v-if="searching" class="no-results">Zoeken...</p>
         </div>
     </section>
 </template>
@@ -120,9 +121,9 @@ export default {
     data() {
         return {
             searchInput: "",
-            searchResults: null,
-
-            abortController: null
+            searchResults: {},
+            abortController: null,
+            searching: false
         }
     },
     head: {
@@ -131,9 +132,10 @@ export default {
     methods: {
         // Handle incoming keyUP strokes
         searchGame() {
-            if (this.searchInput.length === 0) this.searchResults = null; // Make the results disappear
+            if (this.searchInput.length === 0) this.searchResults = {}; // Make the results disappear
             if (this.searchInput.length < 3) return; // Do not execute fetch request
             if (this.abortController) this.abortController.abort(); // If the abort controller isn't empty, cancel previous API request so no double requests
+            this.searching = true; // Show search status text
 
             // Make a new abort controller (https://developer.mozilla.org/en-US/docs/Web/API/AbortController)
             this.abortController = new AbortController();
@@ -149,6 +151,7 @@ export default {
             })
             .then((response) => {
                 // Set the response into the results
+                this.searching = false;
                 this.searchResults = response;
             })
             .catch((error) => {
