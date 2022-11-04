@@ -8,9 +8,6 @@ Ik heb dit project gerealiseerd met de API van [IGDB](https://www.igdb.com/) een
 Verder heb ik dit gemaakt met [Nuxt 3](https://v3.nuxtjs.org/) en SSR.
 
 
-[Klik hier om het project te zien!](https://gamefinder.finnpaes.nl)
-
-
 
 
 ## Deployment
